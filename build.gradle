@@ -36,6 +36,8 @@ publishing {
 			artifact bootJar
 		}
 	}
+
+
 	// 到 https://oss.sonatype.org/#nexus-search; 搜索是否上传成功
 	repositories {
 		// 发布Release版本可在版本号后面带上'-RELEASE'，也可不带
