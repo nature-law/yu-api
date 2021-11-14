@@ -1,3 +1,13 @@
+buildscript{
+	repositories {
+		maven {
+			allowInsecureProtocol true
+			url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springboot}")
+	}
+}
 plugins {
 	id 'org.springframework.boot' version "${springboot}"
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -30,31 +40,20 @@ dependencies {
 publishing {
 	publications {
 		// 推送
-		publishMyProjectMiniexcel(MavenPublication) {
-			// 编译jar包
-			from components.java
+		mavenJava(MavenPublication) {
 			artifact bootJar
 		}
 	}
 
 
-	// 到 https://oss.sonatype.org/#nexus-search; 搜索是否上传成功
+	// 到 http://8.142.78.63:8081/repository/; 搜索是否上传成功
 	repositories {
 		// 发布Release版本可在版本号后面带上'-RELEASE'，也可不带
 		maven {
-			name 'Release'
+			def releasesUrl = 'http://8.142.78.63:8081/repository/maven-releases/'
+			def snapshotsUrl = 'http://8.142.78.63:8081/repository/maven-snapshots/'
+			url = version.endsWith('SNAPSHOT') ? snapshotsUrl : releasesUrl
 			allowInsecureProtocol true
-			url 'http://8.142.78.63:8081/repository/maven-releases/'
-			credentials {
-				username = "${nexus_username}"
-				password = "${nexus_password}"
-			}
-		}
-		// 发布Snapshot快照版本必须在版本号后面加上'-SNAPSHOT'
-		maven {
-			name = 'Snapshot'
-			allowInsecureProtocol true
-			url = 'http://8.142.78.63:8081/repository/maven-snapshots/'
 			credentials {
 				username = "${nexus_username}"
 				password = "${nexus_password}"
