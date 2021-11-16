@@ -5,7 +5,7 @@ package com.xia.yuapi.service;
  *
  * @author Andy
  * @version 1.0
- * @date 11/13/2021 17:34
+ * date 11/13/2021 17:34
  */
 public interface IdService {
 	/**
